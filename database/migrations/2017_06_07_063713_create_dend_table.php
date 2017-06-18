@@ -15,7 +15,7 @@ class CreateDendTable extends Migration
     {
         Schema::create('dendas', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('harga')->unsigned();
+            $table->double('harga')->unsigned();
             $table->timestamps();
         });
     }

@@ -2,56 +2,103 @@
 
 @section('content')
 
-<!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
-<div class="collapse navbar-collapse navbar-ex1-collapse">
-    <ul class="nav navbar-nav side-nav">
-        <li class="active">
-            <a href="{{ url('/home') }}"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
-        </li>
-        <li>
-            <a href="javascript:;" data-toggle="collapse" data-target="#master"><i class="fa fa-fw fa-folder-open"></i> Master Data<i class="fa fa-fw fa-caret-down"></i></a>
-            <ul id="master" class="collapse">
-                <li>
-                    <a href="{{ route('users.index') }}"><i class="fa fa-fw fa-user"></i> Data User</a>
-                </li>
-                <li>
-                    <a href="#"><i class="fa fa-fw fa-th"></i> Slot Parkir</a>
-                </li>
-                <li>
-                    <a href="#"><i class="fa fa-fw fa-envelope"></i> Denda</a
-                </li>
-                <li>
-                    <a href="#"><i class="fa fa-fw fa-heart"></i> Perawatan</a
-                </li>
-            </ul>
-        </li>
-        <li>
-            <a href="tables.html"><i class="fa fa-fw fa-th-list"></i> Bookings</a>
-        </li>
-        <li>
-            <a href="tables.html"><i class="fa fa-fw fa-file"></i> Bukti Transfer</a>
-        </li>
-        <li>
-            <a href="forms.html"><i class="fa fa-fw fa-book"></i> Data Transaksi</a>
-        </li>
-        <li>
-            <a href="{{ route('logout') }}"
-                                            onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();"><i class="fa fa-fw fa-power-off"></i> 
-                Logout
-            </a>
-        </li>
-    </ul>
-</div>
-<div class="container container-fluid">
+<div class="container-fluid">
     <div class="row">
         <div class="col-md-10 col-lg-10 col-sm-10 col-md-offset-2 col-lg-offset-2 col-sm-offset-2">
             <div class="panel-default">
                 <div class="panel-heading">
-                    Dashboard
+                    Selamat datang {{ Auth::user()->name }}
                 </div>
                 <div class="panel-body">
-                    Selamat Datang {{ Auth::user()->name }}
+                    @role('member')
+                        <div class="col-lg-2 col-md-2 col-xs-2 thumb" align="center">
+                            <a class="thumbnail" href="{{ url('/home') }}">
+                                <i class="fa fa-fw fa-dashboard fa-5x"></i>
+                                <h4>Dashboard<br><br></h4>
+                            </a>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-xs-2 thumb" align="center">
+                            <a class="thumbnail" href="{{ route('profils.index') }}">
+                                <i class="fa fa-fw fa-user fa-5x"></i>
+                                <h4>Profil<br><br></h4>
+                            </a>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-xs-2 thumb" align="center">
+                            <a class="thumbnail" href="{{ route('bookings.index') }}">
+                                <i class="fa fa-fw fa-book fa-5x"></i>
+                                <h4>Booking<br><br></h4>
+                            </a>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-xs-2 thumb" align="center">
+                            <a class="thumbnail" href="{{ route('bukti_trans.index') }}">
+                                <i class="fa fa-fw fa-upload fa-5x"></i>
+                                <h4>Upload Bukti Transfer</h4>
+                            </a>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-xs-2 thumb" align="center">
+                            <a class="thumbnail" href="{{ route('histories.index') }}">
+                                <i class="fa fa-fw fa-history fa-5x"></i>
+                                <h4>Data Booking<br><br></h4>
+                            </a>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-xs-2 thumb" align="center">
+                            <a class="thumbnail" href="#">
+                                <i class="fa fa-fw fa-power-off fa-5x"></i>
+                                <h4>Logout<br><br></h4>
+                            </a>
+                        </div>
+                    @endrole
+                    @role('admin')
+                        <div class="col-lg-2 col-md-2 col-xs-2 thumb" align="center">
+                            <a class="thumbnail" href="{{ url('/home') }}">
+                                <i class="fa fa-fw fa-dashboard fa-5x"></i>
+                                <h4>Dashboard<br><br></h4>
+                            </a>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-xs-2 thumb" align="center">
+                            <a class="thumbnail" href="{{ route('users.index') }}">
+                                <i class="fa fa-fw fa-user fa-5x"></i>
+                                <h4>Data User<br><br></h4>
+                            </a>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-xs-2 thumb" align="center">
+                            <a class="thumbnail" href="{{ route('parkirs.index') }}">
+                                <i class="fa fa-fw fa-th fa-5x"></i>
+                                <h4>Slot Parkir<br><br></h4>
+                            </a>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-xs-2 thumb" align="center">
+                            <a class="thumbnail" href="{{ route('dendas.index') }}">
+                                <i class="fa fa-fw fa-remove fa-5x"></i>
+                                <h4>Denda<br><br></h4>
+                            </a>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-xs-2 thumb" align="center">
+                            <a class="thumbnail" href="{{ route('perawatans.index') }}">
+                                <i class="fa fa-fw fa-tint fa-5x"></i>
+                                <h4>Perawatan<br><br></h4>
+                            </a>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-xs-2 thumb" align="center">
+                            <a class="thumbnail" href="{{ route('daftar_bookings.index') }}">
+                                <i class="fa fa-fw fa-th-list fa-5x"></i>
+                                <h4>Daftar Booking<br><br></h4>
+                            </a>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-xs-2 thumb" align="center">
+                            <a class="thumbnail" href="{{ route('masterbookings.index') }}">
+                                <i class="fa fa-fw fa-book fa-5x"></i>
+                                <h4>Data Booking<br><br></h4>
+                            </a>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-xs-2 thumb" align="center">
+                            <a class="thumbnail" href="{{ route('logout') }}" onclick="event.preventDefault();
+                                                                 document.getElementById('logout-form').submit();">
+                                <i class="fa fa-fw fa-power-off fa-5x"></i>
+                                <h4>Logout<br><br></h4>
+                            </a>
+                        </div>
+                    @endrole
                 </div>
             </div>
         </div>

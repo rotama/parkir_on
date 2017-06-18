@@ -16,9 +16,9 @@ class CreateParkingTable extends Migration
         Schema::create('parkirs', function (Blueprint $table) {
             $table->increments('id');
             $table->string('slot')->length(10);
-            $table->integer('harga')->unsigned();
-            $table->integer('posisi')->unsigned();
-            $table->string('title')->length(10);
+            $table->double('harga')->unsigned();
+            $table->string('posisi')->length(20);
+            $table->string('status')->length(10);
             $table->timestamps();
         });
     }

@@ -15,7 +15,7 @@ class CreateRawatTable extends Migration
     {
         Schema::create('perawatans', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('harga');
+            $table->double('harga');
             $table->text('servis');
             $table->timestamps();
         });
