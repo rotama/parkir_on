@@ -82,13 +82,7 @@ class UsersController extends Controller
             'password' => bcrypt($request['password']),
         ]);
 
-        $cek = Role_user::MAX('user_id');
-        foreach($cek->get()as $cek){
-            $cek = $cek->user_id;
-        }
-        $tambah =1;
-        $ids = $cek + $tambah;
-        $b = DB::table('role_user')->insert(['user_id'=>$ids,'role_id'=>$role_id]);
+        $a->syncRoles([$role_id]);
         #$ids = 2;
         #$Status = new Role_user;
         #$Status->role_id = $ids;

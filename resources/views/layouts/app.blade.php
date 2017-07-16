@@ -57,7 +57,11 @@
                     </ul>
                     @endrole
                     @role('member')
-                    
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="{{ url('/no_reks/index') }}">No Rekening</a>
+                        </li>
+                    </ul>
                     @endrole
                     @if(Auth::guest())
                     <ul class="nav navbar-nav">
@@ -121,10 +125,13 @@
                                 <a href="{{ route('parkirs.index') }}"><i class="fa fa-fw fa-th"></i> Slot Parkir</a>
                             </li>
                             <li>
-                                <a href="{{ route('dendas.index') }}"><i class="fa fa-fw fa-envelope"></i> Denda</a
+                                <a href="{{ route('dendas.index') }}"><i class="fa fa-fw fa-envelope"></i> Denda</a>
                             </li>
                             <li>
-                                <a href="{{ route('perawatans.index') }}"><i class="fa fa-fw fa-heart"></i> Perawatan</a
+                                <a href="{{ route('perawatans.index') }}"><i class="fa fa-fw fa-heart"></i> Perawatan</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('banks.index') }}"><i class="fa fa-fw fa-dollar"></i> Rekening Bank</a>
                             </li>
                         </ul>
                     </li>

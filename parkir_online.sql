@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 18, 2017 at 05:19 PM
+-- Generation Time: Jul 16, 2017 at 07:04 PM
 -- Server version: 10.1.8-MariaDB
 -- PHP Version: 5.6.14
 
@@ -19,6 +19,32 @@ SET time_zone = "+00:00";
 --
 -- Database: `parkir_online`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `banks`
+--
+
+CREATE TABLE `banks` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `no_rek` varchar(25) COLLATE utf8_unicode_ci NOT NULL,
+  `atas_nama` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `nm_bank` varchar(25) COLLATE utf8_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `banks`
+--
+
+INSERT INTO `banks` (`id`, `no_rek`, `atas_nama`, `nm_bank`, `created_at`, `updated_at`) VALUES
+(1, '3247094843', 'Parkir Online', 'BCA', '2017-07-16 09:46:43', '2017-07-16 09:46:43'),
+(2, '3857594937', 'Parkir Online', 'BRI', '2017-07-16 09:46:43', '2017-07-16 09:46:43'),
+(3, '9585749404', 'Parkir Online', 'Danamon', '2017-07-16 09:46:43', '2017-07-16 09:46:43'),
+(4, '9474834950', 'Parkir Online', 'Mandiri', '2017-07-16 09:46:43', '2017-07-16 09:46:43'),
+(5, '9048473948', 'Parkir Online', 'Bank BJB', '2017-07-16 09:46:43', '2017-07-16 09:46:43');
 
 -- --------------------------------------------------------
 
@@ -44,9 +70,10 @@ CREATE TABLE `bookings` (
 --
 
 INSERT INTO `bookings` (`id`, `kode_trans`, `tgl_booking`, `parkir_id`, `user_id`, `perawatan`, `tgl_keluar`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'Trans-000001', '2017-06-14 09:00:00', 1, 4, 'Ya', '2017-06-16 10:00:00', 'Keluar', NULL, NULL),
-(2, 'Trans-000002', '2017-06-15 09:00:00', 3, 3, 'Tidak', '2017-06-20 09:00:00', 'Belum Transfer', NULL, NULL),
-(3, 'Trans-000003', '2017-06-26 05:00:00', 2, 2, 'Tidak', '2017-06-29 17:00:00', 'Belum Transfer', NULL, NULL);
+(1, 'Trans-000001', '2017-07-14 05:00:00', 1, 2, 'Ya', '2017-07-16 18:00:00', 'Sudah Transfer', NULL, NULL),
+(2, 'Trans-000002', '2017-07-17 23:00:00', 7, 2, 'Ya', '2017-07-21 05:00:00', 'Sudah Transfer', NULL, NULL),
+(3, 'Trans-000003', '2017-07-12 12:00:00', 8, 2, 'Tidak', '2017-07-20 08:00:00', 'Sudah Transfer', NULL, NULL),
+(4, 'Trans-000004', '2017-07-09 04:00:00', 1, 2, 'Tidak', '2017-07-14 14:00:00', 'Keluar', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -68,7 +95,10 @@ CREATE TABLE `bukti_trans` (
 --
 
 INSERT INTO `bukti_trans` (`id`, `tgl_upload`, `booking_id`, `gambar`, `created_at`, `updated_at`) VALUES
-(1, '2017-06-18 01:26:18', 1, '17dfc11fe34bbf91cc48fbc0ebe643dd.png', NULL, NULL);
+(1, '2017-07-16 04:47:55', 1, 'efe98495fbfc72dc6dba0c1458c42b88.png', NULL, NULL),
+(2, '2017-07-16 04:55:56', 2, 'a55111a6ff9d2ee0eb681877a694e38e.jpg', NULL, NULL),
+(3, '2017-07-16 04:57:17', 3, 'f7c7c0c5c7f1e45a22bbdbd11188b91c.jpg', NULL, NULL),
+(4, '2017-07-16 04:58:43', 4, '25e867e119680ca2934d38a31f7c523b.jpg', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -88,7 +118,7 @@ CREATE TABLE `dendas` (
 --
 
 INSERT INTO `dendas` (`id`, `harga`, `created_at`, `updated_at`) VALUES
-(1, 2000, NULL, NULL);
+(1, 5000, '2017-07-16 09:46:43', '2017-07-16 09:46:43');
 
 -- --------------------------------------------------------
 
@@ -109,7 +139,10 @@ CREATE TABLE `keluars` (
 --
 
 INSERT INTO `keluars` (`id`, `tgl_kel`, `booking_id`, `keterlambatan`, `denda`) VALUES
-(2, '2017-06-18 08:33:15', 1, 2, 4000);
+(1, '2017-07-16 23:48:50', 1, 0, 0),
+(2, '2017-07-16 23:56:23', 2, 0, 0),
+(3, '2017-07-16 23:57:43', 3, 0, 0),
+(4, '2017-07-16 23:59:18', 4, 2, 15000);
 
 -- --------------------------------------------------------
 
@@ -128,15 +161,16 @@ CREATE TABLE `migrations` (
 --
 
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
-(34, '2014_10_12_000000_create_users_table', 1),
-(35, '2014_10_12_100000_create_password_resets_table', 1),
-(36, '2017_06_07_061339_laratrust_setup_tables', 1),
-(37, '2017_06_07_063556_create_parking_table', 1),
-(38, '2017_06_07_063713_create_dend_table', 1),
-(39, '2017_06_07_063834_create_rawat_table', 1),
-(40, '2017_06_07_063943_create_book_table', 1),
-(41, '2017_06_15_121023_create_bukti_trans_table', 1),
-(42, '2017_06_18_053312_create_keluar_table', 1);
+(191, '2014_10_12_000000_create_users_table', 1),
+(192, '2014_10_12_100000_create_password_resets_table', 1),
+(193, '2017_06_07_061339_laratrust_setup_tables', 1),
+(194, '2017_06_07_063556_create_parking_table', 1),
+(195, '2017_06_07_063713_create_dend_table', 1),
+(196, '2017_06_07_063834_create_rawat_table', 1),
+(197, '2017_06_07_063943_create_book_table', 1),
+(198, '2017_06_15_121023_create_bukti_trans_table', 1),
+(199, '2017_06_18_053312_create_keluar_table', 1),
+(200, '2017_07_14_012457_create_banks_table', 1);
 
 -- --------------------------------------------------------
 
@@ -159,16 +193,16 @@ CREATE TABLE `parkirs` (
 --
 
 INSERT INTO `parkirs` (`id`, `slot`, `harga`, `posisi`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'R01', 10000, 'Lantai 1', 'Available', '2017-06-18 06:09:07', '2017-06-18 06:09:07'),
-(2, 'R02', 10000, 'Lantai 1', 'Booked', '2017-06-18 06:09:07', '2017-06-18 06:09:07'),
-(3, 'R03', 10000, 'Lantai 1', 'Booked', '2017-06-18 06:09:07', '2017-06-18 06:09:07'),
-(4, 'R04', 15000, 'Lantai 2', 'Available', '2017-06-18 06:09:07', '2017-06-18 06:09:07'),
-(5, 'R05', 15000, 'Lantai 2', 'Available', '2017-06-18 06:09:08', '2017-06-18 06:09:08'),
-(6, 'R06', 15000, 'Lantai 2', 'Available', '2017-06-18 06:09:08', '2017-06-18 06:09:08'),
-(7, 'R07', 20000, 'Lantai 3', 'Available', '2017-06-18 06:09:08', '2017-06-18 06:09:08'),
-(8, 'R08', 20000, 'Lantai 3', 'Available', '2017-06-18 06:09:08', '2017-06-18 06:09:08'),
-(9, 'R09', 20000, 'Lantai 3', 'Available', '2017-06-18 06:09:08', '2017-06-18 06:09:08'),
-(10, 'R10', 20000, 'Lantai 3', 'Available', '2017-06-18 06:09:08', '2017-06-18 06:09:08');
+(1, 'R01', 10000, 'Lantai 1', 'Available', '2017-07-16 09:46:41', '2017-07-16 09:46:41'),
+(2, 'R02', 10000, 'Lantai 1', 'Available', '2017-07-16 09:46:42', '2017-07-16 09:46:42'),
+(3, 'R03', 10000, 'Lantai 1', 'Available', '2017-07-16 09:46:42', '2017-07-16 09:46:42'),
+(4, 'R04', 15000, 'Lantai 2', 'Available', '2017-07-16 09:46:42', '2017-07-16 09:46:42'),
+(5, 'R05', 15000, 'Lantai 2', 'Available', '2017-07-16 09:46:42', '2017-07-16 09:46:42'),
+(6, 'R06', 15000, 'Lantai 2', 'Available', '2017-07-16 09:46:42', '2017-07-16 09:46:42'),
+(7, 'R07', 20000, 'Lantai 3', 'Available', '2017-07-16 09:46:42', '2017-07-16 09:46:42'),
+(8, 'R08', 20000, 'Lantai 3', 'Available', '2017-07-16 09:46:42', '2017-07-16 09:46:42'),
+(9, 'R09', 20000, 'Lantai 3', 'Available', '2017-07-16 09:46:42', '2017-07-16 09:46:42'),
+(10, 'R10', 20000, 'Lantai 3', 'Available', '2017-07-16 09:46:42', '2017-07-16 09:46:42');
 
 -- --------------------------------------------------------
 
@@ -201,7 +235,7 @@ CREATE TABLE `perawatans` (
 --
 
 INSERT INTO `perawatans` (`id`, `harga`, `servis`, `created_at`, `updated_at`) VALUES
-(1, 5000, 'Cuci 1x sehari, TuneUp 1x sehari', '2017-06-18 06:09:08', '2017-06-18 06:09:08');
+(1, 10000, 'Cuci 1X sehari, Tune Up 1x sehari', '2017-07-16 09:46:43', '2017-07-16 09:46:43');
 
 -- --------------------------------------------------------
 
@@ -249,8 +283,8 @@ CREATE TABLE `roles` (
 --
 
 INSERT INTO `roles` (`id`, `name`, `display_name`, `description`, `created_at`, `updated_at`) VALUES
-(1, 'admin', 'Admin', NULL, '2017-06-18 06:09:07', '2017-06-18 06:09:07'),
-(2, 'member', 'Member', NULL, '2017-06-18 06:09:07', '2017-06-18 06:09:07');
+(1, 'admin', 'Admin', NULL, '2017-07-16 09:46:40', '2017-07-16 09:46:40'),
+(2, 'member', 'Member', NULL, '2017-07-16 09:46:40', '2017-07-16 09:46:40');
 
 -- --------------------------------------------------------
 
@@ -294,14 +328,20 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Admin', 'admin@gmail.com', '$2y$10$xJ65EH.G.l.T0SmGWpugWOIjgSdo2ZVHDxyvyDTuDc7Gz1J7kM.gK', '1MzSpsdTFp2Dqyb3V0ZX0eLwkpsoZKFCphSSPOGH7UHqdkopG2F4H7gwCIbG', '2017-06-18 06:09:07', '2017-06-18 06:09:07'),
-(2, 'Sample Member', 'member@gmail.com', '$2y$10$sxT/705tdcgRp2unIKFdQ.J2Tq9Y0sp0ZpgFnqMFRxdd54FHIfpr.', 'yOZxwwzvUGOL0kl50TYaszNhUJWvSCC1TqH9J0PBiiUJvBBS80x7Bti4Cx6L', '2017-06-18 06:09:07', '2017-06-18 06:09:07'),
-(3, 'Ronaldo', 'ronaldo@gmail.com', '$2y$10$xJtTDDYLgNPuYkVEj3.VU.5Opxfa.TY0B8eZkVrWdn1SrQ/SEisLe', '3cxx8ogeHzeHws4JdECw6gyaSC1rr7VCQRiQESN3jNjhJOGQfzsNZoGnqoZw', '2017-06-18 06:12:03', '2017-06-18 06:12:03'),
-(4, 'Saha', 'saha@gmail.com', '$2y$10$mf9wNl95L5lYQu6CKqTSUux0GhV.RM3GsqeWlqqpxedUszkSZkNQS', 'AN2mrpxU9mpTAgI1w0eNRj4spjfo2B14Dtw1ypBTK52PbfqNQRKfv5EV9OAk', '2017-06-18 06:12:28', '2017-06-18 06:12:28');
+(1, 'Admin', 'admin@gmail.com', '$2y$10$8u4MYgPNvJ04qVYYkErYN.gOVMcsv3VZNtZwfUzCbzy/AiMiEUbPe', NULL, '2017-07-16 09:46:40', '2017-07-16 09:46:40'),
+(2, 'Sample Member', 'member@gmail.com', '$2y$10$ZO94CzTxRHQ3XV2U2YTKOOTVy8Km/DaPGUnkF0U1VGQnYUkZndTMe', NULL, '2017-07-16 09:46:40', '2017-07-16 09:46:40'),
+(3, 'Saha', 'saha@gmail.com', '$2y$10$cCa2KCpgtmWLg.cct3xDMegnLe9Iqj19Em7AEpupSVrc4tsOcUVd6', NULL, '2017-07-16 09:46:41', '2017-07-16 09:46:41'),
+(4, 'Ronaldo', 'ronaldo@gmail.com', '$2y$10$1lcNfExYuvPVbikgL8ZulOdx6kRsUp5rMJI8Cnm4bhsr7ZsIxzcvq', NULL, '2017-07-16 09:46:41', '2017-07-16 09:46:41');
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `banks`
+--
+ALTER TABLE `banks`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `bookings`
@@ -395,15 +435,20 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `banks`
+--
+ALTER TABLE `banks`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+--
 -- AUTO_INCREMENT for table `bookings`
 --
 ALTER TABLE `bookings`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `bukti_trans`
 --
 ALTER TABLE `bukti_trans`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `dendas`
 --
@@ -413,12 +458,12 @@ ALTER TABLE `dendas`
 -- AUTO_INCREMENT for table `keluars`
 --
 ALTER TABLE `keluars`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=201;
 --
 -- AUTO_INCREMENT for table `parkirs`
 --

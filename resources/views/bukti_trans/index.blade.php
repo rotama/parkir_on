@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-	<div class="container_fluid">
+	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-10 col-sm-10 col-md-offset-2 col-lg-offset-2 col-sm-offset-2">
 				<div class="panel panel-primary">
@@ -19,15 +19,15 @@
 							<div class="form-group{{ $errors->has('bukti_id') ? ' has-error' : '' }}">
 								{!! Form::label('bukti_id', 'Kode Booking', ['class'=>'col-md-2 control-label']) !!}
 								<div class="col-md-4">
-									{!! Form::text('bukti_id', $kode_trans, ['class'=>'form-control','readonly']) !!}
+									{!! Form::text('bukti_id', null, ['class'=>'form-control']) !!}
 									{!! $errors->first('bukti_id', '<p class="help-block">:message</p>') !!}
 								</div>
 							</div>
-							<div class="form-group{{ $errors->has('foto') ? ' has-error' : '' }}">
-								{!! Form::label('foto', 'Bukti Transfer', ['class'=>'col-md-2 control-label']) !!}
+							<div class="form-group{{ $errors->has('gambar') ? ' has-error' : '' }}">
+								{!! Form::label('gambar', 'Bukti Transfer', ['class'=>'col-md-2 control-label']) !!}
 								<div class="col-md-4">
-									{!! Form::file('foto') !!}
-									{!! $errors->first('foto', '<p class="help-block">:message</p>') !!}
+									{!! Form::file('gambar') !!}
+									{!! $errors->first('gambar', '<p class="help-block">:message</p>') !!}
 								</div>
 							</div>
 							<div class="form-group">

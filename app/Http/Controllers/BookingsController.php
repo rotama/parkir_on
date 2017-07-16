@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 use App\Parkir;
 use App\Perawatan;
+use Carbon\Carbon;
 
 class BookingsController extends Controller
 {
@@ -54,7 +55,26 @@ class BookingsController extends Controller
         $tgl_booking = $request->tgl_booking;
         $perawatan = $request->perawatan;
         $tgl_keluar = $request->tgl_keluar;
+        $servis = $perawatan;
 
+        $aa = new Carbon($tgl_keluar);
+        $cc = new Carbon($tgl_booking);
+        if($aa < $cc){
+            Session::flash("flash_notification", [
+                "level"=>"danger",
+                "message"=>"Tanggal keluar yang anda input harus lebih besar dari tanggal booking"
+            ]);
+            return redirect()->route('bookings.index');
+        }
+
+        $cek_status = Parkir::select('status')->where('id',$parkir_id)->value('status');
+        if($cek_status=='Booked'){
+            Session::flash("flash_notification", [
+                "level"=>"danger",
+                "message"=>"Maaf Slot parkir sudah di booking "
+            ]);
+            return redirect()->route('bookings.index');
+        }
         $insert = DB::table('bookings')->insert(array(
             'kode_trans' => $kode_trans, 'user_id' => $user_id, 'parkir_id' => $parkir_id, 'tgl_booking' => $tgl_booking, 'perawatan' => $perawatan, 'tgl_keluar' => $tgl_keluar, 'status' => 'Belum Transfer'
         ));
@@ -68,7 +88,19 @@ class BookingsController extends Controller
             "message"=>"Terima kasih $nama , Anda sudah Booking "
         ]);
 
-        return redirect()->route('bookings.index');
+        if($perawatan=="Ya"){
+            $hrg_perawatan = Perawatan::select('harga')->value('harga');
+        }else{
+            $hrg_perawatan = 0;
+        }
+        $tgl_booking1 = new Carbon($tgl_booking);
+        $tgl_keluar1 = new Carbon($tgl_keluar);
+        $selisih = $tgl_booking1->diffInDays($tgl_keluar1);
+        $selisih1 =$selisih;
+        $slot = Parkir::select('slot')->where('id',$parkir_id)->value('slot');
+        $hrg_parkir = Parkir::select('harga')->where('id',$parkir_id)->value('harga');
+        $transfer = ($selisih*$hrg_parkir) + $hrg_perawatan;
+        return redirect('/konfirms/index')->with(['kode_trans'=>$kode_trans,'nama'=>$nama, 'transfer'=>$transfer, 'tgl_booking'=>$tgl_booking, 'tgl_keluar'=>$tgl_keluar, 'selisih1'=>$selisih1, 'hrg_parkir'=>$hrg_parkir, 'slot'=>$slot, 'hrg_perawatan'=>$hrg_perawatan, 'servis'=>$servis]);
 
     }
 

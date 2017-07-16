@@ -29,10 +29,12 @@
             					<td>Slot Parkir</td>
 								<td>{{ $masterbookings->parkir->slot }}</td>
         					</tr>
+                            @if($masterbookings->perawatan == 'Ya')
         					<tr>
             					<td>Perawatan Kendaraan</td>
 								<td>{{ $masterbookings->perawatan }}</td>
         					</tr>
+                            @endif
         					<tr>
             					<td>Status</td>
 								<td>{{ $masterbookings->status }}</td>
@@ -53,28 +55,34 @@
             					<td>Harga Parkir/hari</td>
 								<td>{{ $masterbookings->parkir->harga }}</td>
         					</tr>
+                            @if($masterbookings->perawatan == 'Ya')
         					<tr>
             					<td>Biaya Perawatan</td>
 								<td>{{ $hrg_perawatan }}</td>
         					</tr>
+                            @endif
                             <tr>
                                 <td>Biaya Denda/hari</td>
-                                <td>{{ $hrg_denda }}</td>
-                            </tr>
-                            <tr>
-                                <td>Keterlambatan</td>
                                 @if(count($keluar) > 0)
-                                    <td>{{ $keluar->keterlambatan }}</td>
+                                    <td>{{ $hrg_denda }}</td>
                                 @else
                                     <td>-</td>
                                 @endif
                             </tr>
                             <tr>
-                                <td>Total Denda</td>
-                                @if(count($ada_denda) > 0)
-                                    <td>{{ $keluar->denda }}</td>
+                                <td>Keterlambatan</td>
+                                @if(count($keluar) > 0 AND $keluar->keterlambatan > 0)
+                                    <td class="danger">{{ $keluar->keterlambatan }} hari</td>
                                 @else
-                                    <td>-</td>
+                                    <td>0</td>
+                                @endif
+                            </tr>
+                            <tr>
+                                <td>Kena Biaya Denda</td>
+                                @if(count($ada_denda) > 0 AND $keluar->keterlambatan > 0)
+                                    <td class="danger">{{ $denda }}</a></td>
+                                @else
+                                    <td>0</td>
                                 @endif
                             </tr>
                             <tr>

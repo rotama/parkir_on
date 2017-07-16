@@ -48,32 +48,72 @@ class Bukti_transController extends Controller
         $this->validate($request, [
             'tgl_upload' => 'required',
             'bukti_id' => 'required',
-            'foto' => 'image|max:2048'
+            'gambar' => 'image|max:2048'
         ]);
         $tgl_upload = $request->tgl_upload;
         $bukti_id = $request->bukti_id;
         $kode = DB::table('bookings')->select('id')->where('kode_trans',$bukti_id)->value('id');
         $bukti_trans = new Bukti_trans;
-
-        if ($request->hasFile('foto')) {
-            // Mengambil file yang diupload
-            $uploaded_cover = $request->file('foto');
-            // mengambil extension file
-            $extension = $uploaded_cover->getClientOriginalExtension();
-            // membuat nama file random berikut extension
-            $filename = md5(time()) . '.' . $extension;
-            // menyimpan cover ke folder public/img
-            $destinationPath = public_path() . DIRECTORY_SEPARATOR . 'img';
-            $uploaded_cover->move($destinationPath, $filename);
-            // mengisi field cover di book dengan filename yang baru dibuat
+        $cek = DB::table('bookings')->select('kode_trans')->where('kode_trans',$bukti_id);
+        if($cek->count() < 1){
+            Session::flash("flash_notification", [
+                "level"=>"danger",
+                "message"=>"Kode Transaksi tidak ditemukan"
+            ]);
+            return redirect()->route('bukti_trans.index');
         }
-        $ubah_status = DB::table('bukti_trans')->insert(array('tgl_upload'=>$tgl_upload, 'booking_id'=>$kode,'gambar'=>$filename));
+
+        $cek_bukti = DB::table('bukti_trans')->select('booking_id')->where('booking_id',$kode);
+        if($cek_bukti->count() > 0){
+            $cek_bukti_lama = DB::table('bukti_trans')->where('booking_id',$kode)->first();
+            if ($request->hasFile('gambar')) {
+                $filename = null;
+                $uploaded_cover = $request->file('gambar');
+                $extension = $uploaded_cover->getClientOriginalExtension();
+                // membuat nama file random dengan extension
+                $filename = md5(time()) . '.' . $extension;
+                $destinationPath = public_path() . DIRECTORY_SEPARATOR . 'img';
+                // memindahkan file ke folder public/img
+                $uploaded_cover->move($destinationPath, $filename);
+                // hapus cover lama, jika ada
+                if ($cek_bukti_lama->gambar) {
+                    $old_cover = $cek_bukti_lama->gambar;
+                    $filepath = public_path() . DIRECTORY_SEPARATOR . 'img'. DIRECTORY_SEPARATOR . $cek_bukti_lama->gambar;
+                    try {
+                        File::delete($filepath);
+                    }catch(FileNotFoundException $e) {
+                        // File sudah dihapus/tidak ada
+                    }
+                }
+                $ubah_status = DB::table('bukti_trans')->where('booking_id',$kode)->update(['tgl_upload'=>$tgl_upload, 'gambar'=>$filename]);
+                Session::flash("flash_notification", [
+                    "level"=>"success",
+                    "message"=>"Bukti Upload telah diperbaharui"
+                ]);
+                return redirect()->route('bukti_trans.index');
+            }
+            
+        }else{
+            if ($request->hasFile('gambar')) {
+                // Mengambil file yang diupload
+                $uploaded_cover = $request->file('gambar');
+                // mengambil extension file
+                $extension = $uploaded_cover->getClientOriginalExtension();
+                // membuat nama file random berikut extension
+                $filename = md5(time()) . '.' . $extension;
+                // menyimpan cover ke folder public/img
+                $destinationPath = public_path() . DIRECTORY_SEPARATOR . 'img';
+                $uploaded_cover->move($destinationPath, $filename);
+                // mengisi field cover di book dengan filename yang baru dibuat
+            }
+            $ubah_status = DB::table('bukti_trans')->insert(array('tgl_upload'=>$tgl_upload, 'booking_id'=>$kode,'gambar'=>$filename));    
+        }
         $user_id = Auth::user()->id;
         $status = 'Sudah Transfer';
         $ubah_status = DB::table('bookings')->where('user_id',$user_id)->update(['status'=>$status]);
         Session::flash("flash_notification", [
             "level"=>"success",
-            "message"=>"Bukti berhasil diupload"
+            "message"=>"Bukti Telah diupload"
         ]);
         return redirect()->route('bukti_trans.index');
     }

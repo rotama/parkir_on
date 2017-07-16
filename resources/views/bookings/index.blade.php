@@ -30,7 +30,7 @@
                                                 @if($data->status=='Available')
                                                     <a href="{{ route('bookings.show',$data->id) }}" class="btn btn-success">Booking</a>
                                                 @else
-                                                    <a href="#" class="btn btn-danger">Booked</a>
+                                                    <a href="#" class="btn btn-danger disabled">Booked</a>
                                                 @endif
                                             </p>
                                         </div>

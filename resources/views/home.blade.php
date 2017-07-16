@@ -75,8 +75,14 @@
                         </div>
                         <div class="col-lg-2 col-md-2 col-xs-2 thumb" align="center">
                             <a class="thumbnail" href="{{ route('perawatans.index') }}">
-                                <i class="fa fa-fw fa-tint fa-5x"></i>
+                                <i class="fa fa-fw fa-heart fa-5x"></i>
                                 <h4>Perawatan<br><br></h4>
+                            </a>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-xs-2 thumb" align="center">
+                            <a class="thumbnail" href="{{ route('banks.index') }}">
+                                <i class="fa fa-fw fa-dollar fa-5x"></i>
+                                <h4>Rekening Bank<br><br></h4>
                             </a>
                         </div>
                         <div class="col-lg-2 col-md-2 col-xs-2 thumb" align="center">

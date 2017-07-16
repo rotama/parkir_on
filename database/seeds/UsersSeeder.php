@@ -38,5 +38,19 @@ class UsersSeeder extends Seeder
 		$member->password = bcrypt('rahasia');
 		$member->save();
 		$member->attachRole($memberRole);
+		// Membuat sample member
+		$member = new User();
+		$member->name = "Saha";
+		$member->email = 'saha@gmail.com';
+		$member->password = bcrypt('rahasia');
+		$member->save();
+		$member->attachRole($memberRole);
+		// Membuat sample member
+		$member = new User();
+		$member->name = "Ronaldo";
+		$member->email = 'ronaldo@gmail.com';
+		$member->password = bcrypt('rahasia');
+		$member->save();
+		$member->attachRole($memberRole);
     }
 }

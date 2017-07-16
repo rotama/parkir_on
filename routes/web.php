@@ -22,6 +22,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('settings/password', 'SettingsController@editPassword');
 Route::post('settings/password', 'SettingsController@updatePassword');
+Route::get('no_reks/index', 'No_reksController@index');
+Route::get('konfirms/index', 'KonfirmsController@index');
 	
 Route::group(['prefix'=>'admin', 'middleware'=>['auth','role:admin']], function () {
 	Route::resource('users', 'UsersController');
@@ -30,6 +32,7 @@ Route::group(['prefix'=>'admin', 'middleware'=>['auth','role:admin']], function 
 	Route::resource('perawatans', 'PerawatansController');
 	Route::resource('daftar_bookings', 'Daftar_bookingsController');
 	Route::resource('masterbookings', 'MasterbookingsController');
+	Route::resource('banks', 'BanksController');
 });
 
 Route::group(['prefix'=>'member', 'middleware'=>['auth','role:member']], function () {

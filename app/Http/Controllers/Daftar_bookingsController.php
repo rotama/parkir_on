@@ -13,6 +13,7 @@ use App\Booking;
 use App\Perawatan;
 use App\Parkir;
 use App\Bukti_trans;
+use Carbon\Carbon;
 
 class Daftar_bookingsController extends Controller
 {
@@ -94,9 +95,9 @@ class Daftar_bookingsController extends Controller
         $selisih_hari = Booking::select(
             'tgl_booking',
             'tgl_keluar',
-            DB::raw("DATEDIFF(current_time,tgl_keluar) as selisih")
+            DB::raw("DATEDIFF(tgl_keluar,tgl_booking) as selisih")
         )->where('id',$id)->value('selisih');
-
+        
         $lama = Booking::select(
             'tgl_booking',
             'tgl_keluar',
@@ -125,7 +126,12 @@ class Daftar_bookingsController extends Controller
             $hrg_perawatan = 0;
         }
         $hrg_parkir = Parkir::select('harga')->value('harga');
-        $total = ($hrg_parkir * $lama)+$hrg_perawatan;
+        if($selisih_hari < 0){
+            $total = 0;
+            $hrg_perawatan = 0;
+        }else{
+            $total = ($hrg_parkir * $lama)+$hrg_perawatan;
+        }
         return view('daftar_bookings.edit')->with(compact('daftar_bookings','tmp_gmbr','hrg_perawatan','hrg_parkir','total'));
     }
 
@@ -167,19 +173,39 @@ class Daftar_bookingsController extends Controller
             DB::table('parkirs')
                 ->where('id',$a)
                 ->update(['status' => 'Available']);
-            $now = date('Y-m-d h:i:s');
-            $now1 = date('h:i:s');
+            $now = date('Y-m-d H:i:s');
+            $now1 = date('H:i:s');
             $tampil = Booking::select(
                 'tgl_keluar'
             )->where('id',$id)->value('tgl_keluar');
-            $c = date('h:i:s', strtotime($tampil));
-            if($now1 <= $c){
-                $denda = ($selisih_hari + 0) * $dend;
+
+            $ubah_format_waktu = new Carbon($tampil);
+            $nows = new Carbon($now1);
+            $selisih_terlambat = $nows->diffInDays($ubah_format_waktu);
+            if($selisih_terlambat <= 0 || $nows < $ubah_format_waktu){
+                $selisih_terlambat = 0;
+                $denda = ($selisih_terlambat + 0) * $dend;
+                $insert = DB::table('keluars')
+                        ->insert(['tgl_kel' => $now,'booking_id' => $id, 'keterlambatan'=>$selisih_terlambat,'denda'=>$denda]);
             }else{
-                $denda = ($selisih_hari + 1) * $dend;
+                $c = date('H:i:s', strtotime($tampil));
+                if($nows <= $c){
+                    $denda = ($selisih_terlambat + 0) * $dend;
+                    $insert = DB::table('keluars')
+                        ->insert(['tgl_kel' => $now,'booking_id' => $id, 'keterlambatan'=>$selisih_terlambat,'denda'=>$denda]);
+                }else{
+                    $lambat = $selisih_terlambat + 1;
+                    $denda = ($selisih_terlambat + 1) * $dend;
+                    $insert = DB::table('keluars')
+                        ->insert(['tgl_kel' => $now,'booking_id' => $id, 'keterlambatan'=>$lambat,'denda'=>$denda]);
+                }    
             }
-            $insert = DB::table('keluars')
-                ->insert(['tgl_kel' => $now,'booking_id' => $id, 'keterlambatan'=>$selisih_hari,'denda'=>$denda]);
+            
+            Session::flash("flash_notification", [
+                "level"=>"success",
+                "message"=>"Anda sudah meninggalkan tempat parkir"
+            ]);
+            return redirect()->route('masterbookings.show',$id);
         }else{
             DB::table('bookings')
                 ->where('id',$id)
