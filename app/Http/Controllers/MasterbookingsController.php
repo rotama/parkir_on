@@ -93,7 +93,9 @@ class MasterbookingsController extends Controller
             'tgl_keluar',
             DB::raw("DATEDIFF(tgl_keluar,tgl_booking) as selisih")
         )->where('id',$id)->value('selisih');
-
+        if($lama == 0){
+            $lama = 1;
+        }
         $a = Booking::select(
             'tgl_keluar'
         )->where('id',$id)->value('tgl_keluar');

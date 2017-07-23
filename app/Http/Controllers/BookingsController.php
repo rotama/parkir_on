@@ -66,7 +66,6 @@ class BookingsController extends Controller
             ]);
             return redirect()->route('bookings.index');
         }
-
         $cek_status = Parkir::select('status')->where('id',$parkir_id)->value('status');
         if($cek_status=='Booked'){
             Session::flash("flash_notification", [
@@ -75,6 +74,7 @@ class BookingsController extends Controller
             ]);
             return redirect()->route('bookings.index');
         }
+        
         $insert = DB::table('bookings')->insert(array(
             'kode_trans' => $kode_trans, 'user_id' => $user_id, 'parkir_id' => $parkir_id, 'tgl_booking' => $tgl_booking, 'perawatan' => $perawatan, 'tgl_keluar' => $tgl_keluar, 'status' => 'Belum Transfer'
         ));
@@ -97,10 +97,16 @@ class BookingsController extends Controller
         $tgl_keluar1 = new Carbon($tgl_keluar);
         $selisih = $tgl_booking1->diffInDays($tgl_keluar1);
         $selisih1 =$selisih;
+
         $slot = Parkir::select('slot')->where('id',$parkir_id)->value('slot');
         $hrg_parkir = Parkir::select('harga')->where('id',$parkir_id)->value('harga');
-        $transfer = ($selisih*$hrg_parkir) + $hrg_perawatan;
-        return redirect('/konfirms/index')->with(['kode_trans'=>$kode_trans,'nama'=>$nama, 'transfer'=>$transfer, 'tgl_booking'=>$tgl_booking, 'tgl_keluar'=>$tgl_keluar, 'selisih1'=>$selisih1, 'hrg_parkir'=>$hrg_parkir, 'slot'=>$slot, 'hrg_perawatan'=>$hrg_perawatan, 'servis'=>$servis]);
+        if($selisih1 == 0){
+            $selisihbaru = 1;
+        }else{
+            $selisihbaru=$selisih1;
+        }
+        $transfer = ($selisihbaru*$hrg_parkir) + $hrg_perawatan;
+        return redirect('/konfirms/index')->with(['kode_trans'=>$kode_trans,'nama'=>$nama, 'transfer'=>$transfer, 'tgl_booking'=>$tgl_booking, 'tgl_keluar'=>$tgl_keluar, 'selisihbaru'=>$selisihbaru, 'hrg_parkir'=>$hrg_parkir, 'slot'=>$slot, 'hrg_perawatan'=>$hrg_perawatan, 'servis'=>$servis]);
 
     }
 

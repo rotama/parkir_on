@@ -126,9 +126,9 @@ class Daftar_bookingsController extends Controller
             $hrg_perawatan = 0;
         }
         $hrg_parkir = Parkir::select('harga')->value('harga');
-        if($selisih_hari < 0){
-            $total = 0;
-            $hrg_perawatan = 0;
+        if($selisih_hari <= 0){
+            $lama = 1;
+            $total = ($hrg_parkir * $lama)+$hrg_perawatan;
         }else{
             $total = ($hrg_parkir * $lama)+$hrg_perawatan;
         }

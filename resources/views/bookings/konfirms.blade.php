@@ -38,7 +38,7 @@
                                 </tr>
                                 <tr>
                                     <td>Lama Parkir</td>
-                                    <td>@if(session('selisih1')) {{ session('selisih1') }} @endif hari</td>
+                                    <td>@if(session('selisihbaru')) {{ session('selisihbaru') }} @endif hari</td>
                                 </tr>
                                 @if(session('servis')=='Ya')
                                 <tr>
