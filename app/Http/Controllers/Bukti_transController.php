@@ -48,7 +48,7 @@ class Bukti_transController extends Controller
         $this->validate($request, [
             'tgl_upload' => 'required',
             'bukti_id' => 'required',
-            'gambar' => 'image|max:2048'
+            'gambar' => 'image|mimes:jpeg,png,jpg|max:2048'
         ]);
         $tgl_upload = $request->tgl_upload;
         $bukti_id = $request->bukti_id;
@@ -110,7 +110,7 @@ class Bukti_transController extends Controller
         }
         $user_id = Auth::user()->id;
         $status = 'Sudah Transfer';
-        $ubah_status = DB::table('bookings')->where('user_id',$user_id)->update(['status'=>$status]);
+        $ubah_status = DB::table('bookings')->where('kode_trans',$bukti_id)->update(['status'=>$status]);
         Session::flash("flash_notification", [
             "level"=>"success",
             "message"=>"Bukti Telah diupload"

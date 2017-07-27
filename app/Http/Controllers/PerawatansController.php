@@ -16,7 +16,9 @@ class PerawatansController extends Controller
     public function index()
     {
         //
-        return view('perawatans.index');
+        $a = DB::table('perawatans')->select('harga')->value('harga');
+        $b = DB::table('perawatans')->select('servis')->value('servis');
+        return view('perawatans.index',compact('a','b'));
     }
 
     /**

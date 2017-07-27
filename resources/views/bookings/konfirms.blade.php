@@ -7,7 +7,7 @@
         <div class="col-md-10 col-lg-10 col-sm-10 col-md-offset-2 col-lg-offset-2 col-sm-offset-2">
             <div class="panel-default">
                 <div class="panel-heading">
-                    Silahkan melakukan Transfer Pembayaran
+                    Silahkan Cek Email Anda, kami sudah mengirimkan nota transfer
                 </div>
                 <div class="panel-body">
                         <div class="row">

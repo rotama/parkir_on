@@ -35,7 +35,7 @@ class ParkirsController extends Controller
         $html = $htmlBuilder
             ->addColumn(['data' => 'slot', 'name'=>'slot', 'title'=>'Slot Parkir'])
             ->addColumn(['data' => 'harga', 'name'=>'harga', 'title'=>'Harga'])
-            ->addColumn(['data' => 'posisi', 'name'=>'posisi', 'title'=>'Posisi'])
+            ->addColumn(['data' => 'posisi', 'name'=>'posisi', 'title'=>'Tipe Kendaraan'])
             ->addColumn(['data' => 'status', 'name'=>'status', 'title'=>'Status'])
             ->addColumn(['data' => 'action', 'name'=>'action', 'title'=>'Action', 'orderable'=>false, 'searchable'=>false]);
             

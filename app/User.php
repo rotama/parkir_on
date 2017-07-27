@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laratrust\Traits\LaratrustUserTrait;
+use Illuminate\Support\Facades\Mail;
 
 class User extends Authenticatable
 {
@@ -18,6 +19,9 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name', 'email', 'password',
+    ];
+    protected $casts = [
+        'is_verified' => 'boolean',
     ];
 
     /**
@@ -40,5 +44,31 @@ class User extends Authenticatable
     public function roles()
     {
         return $this->belongsToMany('App\Role');
+    }
+    public function generateVerificationToken()
+    {
+        $token = $this->verification_token;
+        if (!$token) {
+            $token = str_random(40);
+            $this->verification_token = $token;
+            $this->save();
+        }
+        return $token;
+    }
+
+    public function sendVerification()
+    {
+        $token = $this->generateVerificationToken();
+        $user = $this;
+        Mail::send('auth.emails.verification', compact('user', 'token'), function ($m) use ($user) {
+            $m->to($user->email, $user->name)->subject('Verifikasi Akun Parkir Online');
+        });
+    }
+
+    public function verify()
+    {
+        $this->is_verified = 1;
+        $this->verification_token = null;
+        $this->save();
     }
 }

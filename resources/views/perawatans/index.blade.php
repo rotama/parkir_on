@@ -30,7 +30,11 @@
 									</button>
 								</div>
 							</div>
-						{!! Form::close() !!}
+						{!! Form::close() !!}<br>
+						<h4>Note :</h4>
+						1. Harga Perawatan Kendaraan Saat ini sebeser Rp. {{ number_format($a,2) }}<br>
+						2. Perawatan yang diberikan : {{ $b }}
+						
 					</div>
 				</div>
 			</div>

@@ -16,7 +16,8 @@ class DendasController extends Controller
     public function index()
     {
         //
-        return view('dendas.index');
+        $a = DB::table('dendas')->select('harga')->value('harga');
+        return view('dendas.index',compact('a'));
     }
 
     /**

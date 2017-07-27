@@ -24,33 +24,31 @@ class UsersSeeder extends Seeder
 		$memberRole->name = "member";
 		$memberRole->display_name = "Member";
 		$memberRole->save();
-		// Membuat sample admin
+		
 		$admin = new User();
-		$admin->name = 'Admin';
-		$admin->email = 'admin@gmail.com';
-		$admin->password = bcrypt('rahasia');
-		$admin->save();
-		$admin->attachRole($adminRole);
-		// Membuat sample member
-		$member = new User();
-		$member->name = "Sample Member";
-		$member->email = 'member@gmail.com';
-		$member->password = bcrypt('rahasia');
-		$member->save();
-		$member->attachRole($memberRole);
-		// Membuat sample member
-		$member = new User();
-		$member->name = "Saha";
-		$member->email = 'saha@gmail.com';
-		$member->password = bcrypt('rahasia');
-		$member->save();
-		$member->attachRole($memberRole);
-		// Membuat sample member
-		$member = new User();
-		$member->name = "Ronaldo";
-		$member->email = 'ronaldo@gmail.com';
-		$member->password = bcrypt('rahasia');
-		$member->save();
-		$member->attachRole($memberRole);
+        $admin->name = 'Admin Parkir Online';
+        $admin->email = 'parkirsonline@gmail.com';
+        $admin->password = bcrypt('parkironline');
+        $admin->is_verified = 1;
+        $admin->save();
+        $admin->attachRole($adminRole);
+
+        // Membuat sample member
+        $member = new User();
+        $member->name = "Krisst";
+        $member->email = 'krisst111295@gmail.com';
+        $member->password = bcrypt('rahasia');
+        $member->is_verified = 1;
+        $member->save();
+        $member->attachRole($memberRole);
+        // Membuat sample member
+        $member1 = new User();
+        $member1->name = "Tama Krisst";
+        $member1->email = 'tamakrisst1112@gmail.com';
+        $member1->password = bcrypt('rahasia');
+        $member1->is_verified = 1;
+        $member1->save();
+        $member1->attachRole($memberRole);
+		
     }
 }

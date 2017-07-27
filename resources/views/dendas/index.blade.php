@@ -23,7 +23,8 @@
 									</button>
 								</div>
 							</div>
-						{!! Form::close() !!}
+						{!! Form::close() !!}<br>
+						<h4>Note : Harga Denda Saat ini sebeser Rp. {{ number_format($a,2) }}</h4>
 					</div>
 				</div>
 			</div>

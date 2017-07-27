@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="container-fluid">
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+        <div class="col-md-8 col-sm-8 col-md-offset-2 col-lg-offset-2 col-sm-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading">Register</div>
                 <div class="panel-body">
@@ -36,6 +36,7 @@
                                 {!! $errors->first('password_confirmation', '<p class="help-block">:message</p>') !!}
                             </div>
                         </div>
+                        
                         <div class="form-group">
                             <div class="col-md-3 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary">

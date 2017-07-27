@@ -11,13 +11,25 @@
 |
 */
 use App\Parkir;
+use App\Mail\Emailconfirmation;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 Route::get('/', function () {
     $a = Parkir::get();
     return view('welcome',compact('a'));
 });
 
+Route::get('/send', function () {
+    $a = new Emailconfirmation;
+    $b = '<br>fdkfjd ksdf ksdf ksdf dsk fdk sdf ';
+    Mail::to('tamakrisst1112@gmail.com')->send($a,compact('b'));
+    return 'Sukses';
+});
+
 Auth::routes();
+Route::get('auth/verify/{token}', 'Auth\RegisterController@verify');
+Route::get('auth/send-verification', 'Auth\RegisterController@sendVerification');
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('settings/password', 'SettingsController@editPassword');

@@ -8,7 +8,14 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 use App\Parkir;
 use App\Perawatan;
+use App\Booking;
+use App\Bank;
+use PDF;
 use Carbon\Carbon;
+use Illuminate\Mail\Mailable;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Notifications\Messages\MailMessage;
+use App\Mail\Emailconfirmation;
 
 class BookingsController extends Controller
 {
@@ -83,6 +90,7 @@ class BookingsController extends Controller
             ->where('id', $parkir_id)
             ->update(array('status' => 'Booked'));
         $nama = Auth::user()->name;
+
         Session::flash("flash_notification", [
             "level"=>"success",
             "message"=>"Terima kasih $nama , Anda sudah Booking "
@@ -106,6 +114,31 @@ class BookingsController extends Controller
             $selisihbaru=$selisih1;
         }
         $transfer = ($selisihbaru*$hrg_parkir) + $hrg_perawatan;
+
+        //kirim nota transaksi ke email user
+        $cek_id = DB::table('bookings')->where('kode_trans',$kode_trans)->select('id')->value('id');
+
+        $url = url(config('app.url').route('masterbookings.edit', $cek_id));
+        $masterbookings = Booking::with('user','parkir')->where('id',$cek_id)->first();
+        $cek_id_parkir = DB::table('bookings')->where('id',$cek_id)->select('parkir_id')->value('parkir_id');
+        $hrg_parkir = Parkir::where('id',$cek_id_parkir)->select('harga')->value('harga');
+        $lama = Booking::select(
+            'tgl_booking',
+            'tgl_keluar',
+            DB::raw("DATEDIFF(tgl_keluar,tgl_booking) as selisih")
+        )->where('id',$cek_id)->value('selisih');
+        if($lama == 0){
+            $lama = 1;
+        }
+        $total = ($hrg_parkir * $lama) + $hrg_perawatan;
+        $dftr_rek = Bank::get();
+        $user = $this;
+        $email = Auth::user()->email;
+
+        Mail::send('masterbookings.cetak1', compact('nama', 'masterbookings','hrg_parkir','lama','hrg_perawatan','total','dftr_rek','cek_id'), function ($m) use ($user) {
+            $m->to(Auth::user()->email)->subject('Silahkan melakukan transfer pembayaran');
+        });
+
         return redirect('/konfirms/index')->with(['kode_trans'=>$kode_trans,'nama'=>$nama, 'transfer'=>$transfer, 'tgl_booking'=>$tgl_booking, 'tgl_keluar'=>$tgl_keluar, 'selisihbaru'=>$selisihbaru, 'hrg_parkir'=>$hrg_parkir, 'slot'=>$slot, 'hrg_perawatan'=>$hrg_perawatan, 'servis'=>$servis]);
 
     }

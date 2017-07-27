@@ -15,7 +15,7 @@
 </div>
 
 <div class="form-group{{ $errors->has('posisi') ? ' has-error' : '' }}">
-	{!! Form::label('posisi', 'Posisi', ['class'=>'col-md-2 control-label']) !!}
+	{!! Form::label('posisi', 'Tipe Kendaraan', ['class'=>'col-md-2 control-label']) !!}
 	<div class="col-md-4">
 		{!! Form::text('posisi', null, ['class'=>'form-control']) !!}
 		{!! $errors->first('posisi', '<p class="help-block">:message</p>') !!}
