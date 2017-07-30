@@ -1,18 +1,18 @@
 @extends('layouts.app')
 
 @section('content')
-
-<div class="container-fluid">
+    <!-- Title -->
     <div class="row">
-        <div class="col-md-10 col-lg-10 col-sm-10 col-md-offset-2 col-lg-offset-2 col-sm-offset-2">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    Slot Parkir 
-                </div>
-                <div class="panel-body">
-                    @role('member')
-                        <div class="row text-center">
-                            @foreach($postings as $data)
+        <div class="col-lg-12">
+            <h3>Slot Parkir</h3>
+        </div>
+    </div>
+    <!-- /.row -->
+    
+    <!-- Page Features -->
+    <div class="container">
+        <div class="row text-center">
+            @foreach($a as $data)
             <div class="col-md-3 col-sm-6 hero-feature">
                 <div class="thumbnail">
                     @if($data->posisi=='Mobil')
@@ -28,7 +28,7 @@
                         </p>
                         <p>
                             @if($data->status=='Available')
-                                <a href="{{ route('bookings.show',$data->id) }}" class="btn btn-success">Booking</a>
+                                <a href="{{ url('/login') }}" class="btn btn-success">Booking</a>
                             @else
                                 <a href="{{ url('/login') }}" class="btn btn-danger">Booked</a>
                             @endif
@@ -37,14 +37,8 @@
                 </div>
             </div>
             @endforeach
-                        </div>
-                    @endrole
-                    @role('admin')
-                        
-                    @endrole
-                </div>
-            </div>
         </div>
     </div>
-</div>     
+    
+    <hr>
 @endsection

@@ -5,7 +5,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-10 col-lg-10 col-sm-10 col-md-offset-2 col-lg-offset-2 col-sm-offset-2">
-            <div class="panel-default">
+            <div class="panel panel-primary">
                 <div class="panel-heading">
                     Selamat datang {{ Auth::user()->name }}
                 </div>

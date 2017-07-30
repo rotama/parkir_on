@@ -19,7 +19,7 @@
 							<div class="form-group{{ $errors->has('bukti_id') ? ' has-error' : '' }}">
 								{!! Form::label('bukti_id', 'Kode Booking', ['class'=>'col-md-2 control-label']) !!}
 								<div class="col-md-4">
-									{!! Form::text('bukti_id', null, ['class'=>'form-control']) !!}
+									{!! Form::select('bukti_id',\App\Booking::select('kode_trans')->where('user_id',$user_id)->where('status','Belum Transfer')->pluck('kode_trans', 'kode_trans')->toArray(), null, ['class'=>'form-control']) !!}
 									{!! $errors->first('bukti_id', '<p class="help-block">:message</p>') !!}
 								</div>
 							</div>

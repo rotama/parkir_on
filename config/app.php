@@ -238,7 +238,7 @@ return [
         'Laratrust' => Laratrust\LaratrustFacade::class,
         'Datatables' => Yajra\Datatables\Facades\Datatables::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
-        
+        'Input' => Illuminate\Support\Facades\Input::class,
     ],
 
 ];

@@ -22,8 +22,10 @@ class Bukti_transController extends Controller
         //
         $tanggal = date('Y-m-d h:i:s');
         $user_id = Auth::user()->id;
+        $nama = Auth::user()->name;
         $kode_trans = Booking::select('kode_trans')->where('user_id',$user_id)->where('status','Belum Transfer')->value('kode_trans');
-        return view('bukti_trans.index',compact('tanggal','kode_trans'));
+        $list = DB::table('bookings')->where('user_id',$user_id)->select('kode_trans')->get();
+        return view('bukti_trans.index',compact('tanggal','kode_trans','user_id'));
     }
 
     /**

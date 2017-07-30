@@ -1,3 +1,4 @@
+
 @media(min-width:768px) {
     .side-nav {
         position: fixed;
@@ -39,3 +40,4 @@
 .side-nav>li>ul>li>a:hover {
     color: #fff;
 }
+/*footer*/

@@ -11,9 +11,10 @@
     <title>{{ config('app.name', 'Parkir Online') }}</title>
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
     <link href="{{ asset('/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" media="screen">
+    <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    
     <link href="{{ asset('/css/heroic-features.css') }}" rel="stylesheet" type="text/css">
     
     <link href="{{ asset('/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
@@ -25,7 +26,7 @@
 <body>
     <div id="app">
         <!-- Navigation -->
-        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
             <div class="container">
                 <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="navbar-header">
@@ -36,9 +37,9 @@
                         <span class="icon-bar"></span>
                     </button>
                     @if(Auth::guest())
-                        <a class="navbar-brand" href="{{ url('/') }}">Parkir Online</a>
+                        <a class="navbar-brand active" href="{{ url('/') }}">www.parkir-online.com</a>
                     @else
-                        <a class="navbar-brand" href="{{ url('/home') }}">Parkir Online</a>
+                        <a class="navbar-brand" href="{{ url('/home') }}">www.parkir-online.com</a>
                     @endif
                 </div>
                 <!-- Collect the nav links, forms, and other content for toggling -->
@@ -66,13 +67,13 @@
                     @if(Auth::guest())
                     <ul class="nav navbar-nav">
                         <li>
-                            <a href="#">Home</a>
+                            <a href="{{ url('/') }}">Home</a>
+                        </li>
+                        <li>
+                            <a href="{{ url('/slots') }}">Slot Parkir</a>
                         </li>
                         <li>
                             <a href="#">About Us</a>
-                        </li>
-                        <li>
-                            <a href="#">Contact Us</a>
                         </li>
                     </ul>
                     @endif
@@ -108,6 +109,7 @@
             </div>
             <!-- /.container -->
         </nav>
+        
         @role('admin')
             <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
@@ -150,6 +152,7 @@
                     </li>
                 </ul>
             </div>
+            
         @endrole
         @role('member')
              <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
@@ -180,17 +183,65 @@
                 </ul>
             </div>
         @endrole
+
         <div class="container-fluid">
             <div class="row">
-            <div class="col-md-10 col-lg-10 col-sm-10 col-md-offset-2 col-lg-offset-2 col-sm-offset-2">
-                @include('layouts._flash')
+                <div class="col-md-10 col-lg-10 col-sm-10 col-md-offset-2 col-lg-offset-2 col-sm-offset-2">
+                    @include('layouts._flash')
+                </div>
             </div>
-        </div>
         </div>
         <div class="container-fluid">
             @yield('content')
         </div>
-         
+        @if(Auth::guest())
+        <nav class="navbar navbar-inverse" style="margin-bottom:0px;margin-top:10px;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3 col-sm-3">
+                        <h4>Information</h4>
+                        <ul class="row">
+                            <li class="col-lg-12 col-sm-12 col-xs-3"><a href="about.php">About</a></li>
+                            <li class="col-lg-12 col-sm-12 col-xs-3"><a href="agents.php">Agents</a></li>         
+                            <li class="col-lg-12 col-sm-12 col-xs-3"><a href="blog.php">Blog</a></li>
+                            <li class="col-lg-12 col-sm-12 col-xs-3"><a href="contact.php">Contact</a></li>
+                        </ul>
+                    </div>
+            
+                    <div class="col-lg-3 col-sm-3">
+                        <h4>Newsletter</h4>
+                        <p>Get notified about the latest properties in our marketplace.</p>
+                        <form class="form-inline" role="form">
+                            <input type="text" placeholder="Enter Your email address" class="form-control">
+                            <button class="btn btn-success" type="button">Send</button>
+                        </form>
+                    </div>
+            
+                    <div class="col-lg-3 col-sm-3">
+                        <h4>Follow us</h4>
+                        <a href="#"><img src="{{ asset('/images/facebook.png') }}" alt="facebook"></a>
+                        <a href="#"><img src="{{ asset('/images/twitter.png') }}" alt="twitter"></a>
+                        <a href="#"><img src="{{ asset('/images/linkedin.png') }}" alt="linkedin"></a>
+                        <a href="#"><img src="{{ asset('/images/instagram.png') }}" alt="instagram"></a>
+                    </div>
+
+                    <div class="col-lg-3 col-sm-3">
+                        <h4>Contact us</h4>
+                        <p><b>Parkir-Online</b><br>
+                        <span class="glyphicon glyphicon-map-marker"></span> Bandung, Jl.Sulaksana<br>
+                        <span class="glyphicon glyphicon-envelope"></span> parkirsonline@gmail.com<br>
+                        <span class="glyphicon glyphicon-earphone"></span> (123) 456-7890</p>
+                    </div>
+                </div>
+                <br>
+                <center><h5><b><p class="copyright">Copyright 2013. All rights reserved.    </p></b></h5></center><br>
+            </div>
+        
+        </nav>
+        @else
+
+        @endif
+        
     </div>
 
     <!-- Scripts -->
@@ -203,11 +254,12 @@
     <script src="{{ asset('/js/custom.js') }}"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-                $('.tanggal').datetimepicker({
-                    format: "yyyy-mm-dd hh:ii",
-                    autoclose:true
-                });
+            $('.tanggal').datetimepicker({
+                format: "yyyy-mm-dd hh:ii",
+                autoclose:true
             });
+        });
+
     </script>
     @yield('scripts')
 </body>
